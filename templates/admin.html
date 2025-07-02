@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding: 30px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    h2 {
+      color: #198754;
+      margin-bottom: 20px;
+    }
+    .logout-btn {
+      float: right;
+    }
+    .table-img {
+      width: 100px;
+      border-radius: 8px;
+    }
+    .status-btn {
+      text-decoration: none;
+      margin-right: 8px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Admin - Waste Reports
+      <a href="/logout" class="btn btn-outline-danger btn-sm logout-btn">Logout</a>
+    </h2>
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover align-middle">
+        <thead class="table-success text-center">
+          <tr>
+            <th>ID</th>
+            <th>Image</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in reports %}
+          <tr>
+            <td class="text-center">{{ r[0] }}</td>
+            <td><img src="/static/uploads/{{ r[1] }}" class="table-img" alt="Report Image"></td>
+            <td>{{ r[2] }}</td>
+            <td>{{ r[3] }}, {{ r[4] }}</td>
+            <td class="text-center">
+              <span class="badge {% if r[5] == 'Resolved' %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                {{ r[5] }}
+              </span>
+            </td>
+            <td class="text-center">
+              <a href="/update_status/{{ r[0] }}/Resolved" class="status-btn text-success" title="Mark Resolved">✅</a>
+              <a href="/update_status/{{ r[0] }}/Pending" class="status-btn text-warning" title="Mark Pending">🕓</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
